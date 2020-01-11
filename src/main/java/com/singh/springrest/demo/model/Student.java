@@ -2,6 +2,7 @@ package com.singh.springrest.demo.model;
 
 public class Student {
 	
+	private int id;
 	private String firstName;
 	private String lasName;
 	
@@ -9,6 +10,12 @@ public class Student {
 	}
 	
 	public Student(String firstName, String lastName) {
+		this.firstName = firstName;
+		this.lasName = lastName;
+	}
+	
+	public Student(int id, String firstName, String lastName) {
+		this.id = id;
 		this.firstName = firstName;
 		this.lasName = lastName;
 	}

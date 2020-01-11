@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,18 @@ public class StudentRestController {
 		students.add(new Student("Mary", "Sue"));
 		
 		return students;
+	}
+	
+	@GetMapping("/student/{studentId}")
+	public Student getStudentsId(@PathVariable int studentId) {
+		List<Student> students = new ArrayList<Student>();
+		
+		students.add(new Student(0, "Mario", "Rossi"));
+		students.add(new Student(1, "Amrit", "Singh"));
+		students.add(new Student(2, "John", "Doe"));
+		students.add(new Student(3, "Mary", "Sue"));
+		
+		return students.get(studentId);
 	}
 
 }

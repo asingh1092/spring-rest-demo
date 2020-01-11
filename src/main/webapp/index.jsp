@@ -11,6 +11,8 @@
 <a href="${pageContext.request.contextPath}/test/hello">Hello World!</a>
 <br>
 <a href="${pageContext.request.contextPath}/api/students">Get Students</a>
+<br>
+<a href="${pageContext.request.contextPath}/api/student/0">Get Student</a>
 
 </body>
 </html>
