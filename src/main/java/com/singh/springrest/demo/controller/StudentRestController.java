@@ -22,9 +22,9 @@ import com.singh.springrest.demo.model.Student;
 @RestController
 @RequestMapping("/api")
 public class StudentRestController {
-	
+
 	private List<Student> students;
-	
+
 	// define @PostConstruct data to load the student data
 	@PostConstruct
 	public void loadData() {
@@ -34,36 +34,49 @@ public class StudentRestController {
 		students.add(new Student(2, "John", "Doe"));
 		students.add(new Student(3, "Mary", "Sue"));
 	}
-	
+
 	// define endpoint for "/students" - returns list of students
 	@GetMapping("/students")
 	public List<Student> getStudents() {
 		return students;
 	}
-	
-	//define endpoint for "/student/{studentId}" - returns student 
+
+	// define endpoint for "/student/{studentId}" - returns student
 	@GetMapping("/student/{studentId}")
 	public Student getStudentsId(@PathVariable int studentId) {
-		
-		// Check studentId against list size 
+
+		// Check studentId against list size
 		if (studentId >= students.size() || studentId < 0) {
 			throw new StudentNotFoundException("Student Id not found - " + studentId);
 		}
-		
+
 		return students.get(studentId);
 	}
-	
+
 	// Add exception handler using @ExceptionHandler
 	@ExceptionHandler
-	public ResponseEntity<StudentErrorResponse> handleEception(StudentNotFoundException e) {
+	public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException e) {
 		// create a StudentErrorResponse object
 		StudentErrorResponse error = new StudentErrorResponse();
 		error.setStatus(HttpStatus.NOT_FOUND.value());
 		error.setMessage(e.getMessage());
 		error.setTimeStamp(LocalDateTime.now());
-		
+
 		// return ResponseEntity
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
-	
+
+	// add another exception handler to catch generic exceptions (catch all)
+	@ExceptionHandler
+	public ResponseEntity<StudentErrorResponse> handleException(Exception e) {
+
+		// create a StudentErrorResponse object
+		StudentErrorResponse error = new StudentErrorResponse();
+		error.setStatus(HttpStatus.BAD_REQUEST.value());
+		error.setMessage(e.getMessage());
+		error.setTimeStamp(LocalDateTime.now());
+
+		// return ResponseEntity
+		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+	}
 }
